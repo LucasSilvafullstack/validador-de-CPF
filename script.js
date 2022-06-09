@@ -2,20 +2,13 @@ let $conferirCPF = document.querySelector('#conferirNumero')
 let $check = document.querySelector('.check')
 let resposta = document.querySelector('.resposta')
 
-$conferirCPF.addEventListener('input', evente => {
-    let valor = evente.target.value
-    if (valor.length == 11){
-        document.querySelector('input').addEventListener('keypress', function(evt) {
-            if (evt.key !== 'backspace' && valor.length == 11 && evt.keyCode !==13) {
-                evt.preventDefault()
-                alert('Tecla inválida');
-                valor = 10
-                    
-            }
-        });
-    }
-})
 
+$conferirCPF.addEventListener('keypress', function (evt) {
+    let val = evt.target.value
+    if (evt.key !== 'backspace' && val.length == 11 && evt.keyCode !== 13) {
+        evt.preventDefault()
+    }
+});
 
 // função copiada e modificada
 document.addEventListener("keydown", event => {
@@ -50,7 +43,7 @@ function conferirDados() {
 
         conferirDados_2()
         $conferirCPF.value = ''
-    }else{
+    } else {
         conferirDados_2()
         $conferirCPF.value = ''
     }
@@ -79,9 +72,9 @@ function conferirDados_2() {
     if (validador_1 && validador_2 === true) {
         resposta.innerHTML = '<p>CPF válido!</p>'
     }
-    else{
+    else {
         resposta.innerHTML = '<p>CPF inválido!</p>'
-}
+    }
 }
 
 
