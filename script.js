@@ -2,20 +2,32 @@ let $conferirCPF = document.querySelector('#conferirNumero')
 let $check = document.querySelector('.check')
 let resposta = document.querySelector('.resposta')
 
-let click = false
+$conferirCPF.addEventListener('input', evente => {
+    let valor = evente.target.value
+    if (valor.length == 11){
+        document.querySelector('input').addEventListener('keypress', function(evt) {
+            if (evt.key !== 'backspace' && valor.length == 11 && evt.keyCode !==13) {
+                evt.preventDefault()
+                alert('Tecla inválida');
+                valor = 10
+                    
+            }
+        });
+    }
+})
+
+
 // função copiada e modificada
 document.addEventListener("keydown", event => {
     if (event.keyCode === 13) {
-        if(click === false){
-            conferirDados()
-            click = true
-        }
+        conferirDados()
+
     }
 })
 $check.addEventListener('click', conferirDados)
 
 function conferirDados() {
-
+    validador_1 = validador_2 = false
     let conferirCPF_1 = $conferirCPF.value.split('')
     let soma = 0
     let multi = 0
@@ -32,47 +44,45 @@ function conferirDados() {
     let check = (soma * 10) % 11
     console.log(check)
 
-    $conferirCPF.value = ''
+
     if (+conferirCPF_1[9] === check) {
+        validador_1 = true
 
-        $check.removeEventListener('click', conferirDados)
-
-        resposta.innerHTML = '<p>Primeira etapa concluida, agora digite seu cpf mais uma vez</p>'
-
-        liberar = true
+        conferirDados_2()
+        $conferirCPF.value = ''
+    }else{
+        conferirDados_2()
+        $conferirCPF.value = ''
     }
 
 }
-// let contar = 0
-// document.addEventListener("keydown", event => {
-//     if (event.keyCode === 13) {
-//         if(liberar === true && contar != 0){
-//             conferirDados_2()
-//         }
-//         contar++
-//     }
-// })
-// $check.addEventListener('click', () => {
-//     if(liberar === true && contar != 0){
-//         conferirDados_2()
-//     }
-// contar++
-// })
 
-// function conferirDados_2() {
+function conferirDados_2() {
 
-//     let conferirCPF_2 = $conferirCPF.value.split('')
-//     let soma = 0
-//     let multi = 0
-//     let cont = 0
+    let conferirCPF_2 = $conferirCPF.value.split('')
+    let soma = 0
+    let multi = 0
+    let cont = 0
 
-//     for (let i = 11; i > 1; i++) {
-//         multi = conferirCPF_2[cont] * i
-//         soma += multi
-//         cont++
+    for (let i = 11; i > 1; i--) {
+        multi = conferirCPF_2[cont] * i
+        soma += multi
+        console.log(soma, multi, cont, i, conferirCPF_2[cont])
+        cont++
 
-//     }
-//     let check_2 = (soma * 10) % 11
-//     console.log(check_2)
-// }
+    }
+    let check_2 = (soma * 10) % 11
+    if (+conferirCPF_2[10] === check_2) {
+        validador_2 = true
+        console.log(check_2)
+    }
+    if (validador_1 && validador_2 === true) {
+        resposta.innerHTML = '<p>CPF válido!</p>'
+    }
+    else{
+        resposta.innerHTML = '<p>CPF inválido!</p>'
+}
+}
+
+
 
