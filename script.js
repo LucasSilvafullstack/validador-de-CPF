@@ -70,7 +70,18 @@ function conferirDados_2() {
         console.log(check_2)
     }
     if (validador_1 && validador_2 === true) {
-        resposta.innerHTML = '<p>CPF válido!</p>'
+        let conferirSequencia = $conferirCPF.value.split('').reverse().join('')
+        let o = 0
+        for (let i = 0; i < 10; i++) {
+            if ($conferirCPF.value[i] != conferirSequencia[i] && $conferirCPF.value.slice(0, i) != conferirSequencia.slice(0, i)) {
+                o++
+            }
+        }
+        if (o != 0) {
+            resposta.innerHTML = '<p>CPF válido!</p>'
+        } else {
+            resposta.innerHTML = '<p>CPF inválido!</p>'
+        }
     }
     else {
         resposta.innerHTML = '<p>CPF inválido!</p>'
